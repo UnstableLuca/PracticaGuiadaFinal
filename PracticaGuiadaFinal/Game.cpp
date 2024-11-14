@@ -23,12 +23,16 @@ void Game::ProcessMouseClick(int button, int state, int x, int y)
 void Game::Init()
 {
 	srand(static_cast<unsigned int>(std::time(nullptr)));
+	
+	Sphere SpherePrototye = Sphere();
 
 	Cube CubePrototype = Cube(Vector3D(0,0,-2),Color(1,0,0),Vector3D(0,0,0),2);
 
-	Cube* Particle = CubePrototype.Clone();
+	Sphere* sParticle = SpherePrototye.Clone();
+
+	Cube* cParticle = CubePrototype.Clone();
 	
-	emmiter.SetParticle(Particle);
+	emmiter.SetParticle(sParticle);
 
 }
 

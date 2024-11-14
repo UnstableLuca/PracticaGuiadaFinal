@@ -43,11 +43,11 @@ void Emmiter::Update()
 
 			AddParticle(newParticle);
 			current++;
-			std::cout << current << std::endl;
+
+			lastUpdateTime = currentTime.count() - initialMilliseconds.count();
 		}
 	}
 
-	this->lastUpdateTime = currentTime.count() - this->initialMilliseconds.count();
 }
 
 Emmiter* Emmiter::Clone()
@@ -62,7 +62,7 @@ Vector3D randVecBinary()
 
 Color randColor()
 {
-	return Color((rand() % 256) / 255, (rand() % 256) / 255, (rand() % 256) / 255);
+	return Color((rand() % 256) / 255.0f, (rand() % 256) / 255.0f, (rand() % 256) / 255.0f);
 }
 
 std::vector<Vector3D> Emmiter::circleSpeeds()
