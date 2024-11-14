@@ -1,0 +1,49 @@
+#pragma once
+
+#include "Solid.h"
+#include <chrono>
+#include <iostream>
+#include "EmmiterConfiguration.h"
+#include <vector>
+#include "Sphere.h"
+
+
+using namespace std::chrono;
+
+
+
+class Emmiter : public Solid
+{
+private:
+
+	EmmiterConfiguration config;
+	std::vector<Solid*> particles;
+	milliseconds initialMilliseconds;
+	long lastUpdateTime;
+	std::vector<Vector3D> circleSpeeds();
+	std::vector<Vector3D> particleSpeeds = circleSpeeds();
+	int current=0;
+
+public:
+
+
+	Emmiter()
+	{
+		
+		config = EmmiterConfiguration(),
+		this->initialMilliseconds = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+		this->lastUpdateTime = 0;
+		{}
+	}
+	
+	Emmiter* Clone();
+
+	void SetParticle(Solid* particle);
+	void AddParticle(Solid* particle);
+	void Update();
+	void Render();
+
+};
+
+Color randColor();
+Vector3D randVecBinary();
