@@ -28,7 +28,7 @@ public:
 	inline void SetHeight(const float& sizeToSet) { this->height = sizeToSet; }
 	inline void SetWidth(const float& sizeToSet) { this->width = sizeToSet; }
 
-	Solid* Clone();
+	Cuboid* Clone();
 	
 	void Render();
 
