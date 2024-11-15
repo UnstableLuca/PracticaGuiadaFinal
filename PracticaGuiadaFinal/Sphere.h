@@ -18,7 +18,7 @@ public:
 		Solid(coordinates, color, orientation),
 		radius(radius), slices(slices), slacks(slacks) {}
 
-	Sphere() : Solid(), radius(1), slices(50), slacks(50) {}
+	Sphere() : Solid(), radius(0.4), slices(50), slacks(50) {}
 
 	inline float GetRadius() const { return this->radius; }
 	inline float GetSlices() const { return this->slices; }

@@ -22,12 +22,27 @@ void Emmiter::Render()
 }
 void Emmiter::Update()
 {
+	Vector3D aux;
 	milliseconds currentTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
 	for (auto& particle : particles)
 	{
 		particle->Update();
+		checkBoundary(particle);
 	}
+
+	int n = particles.size();
+	for (int i = 0; i < n; ++i) {
+		for (int j = i + 1; j < n; ++j) {
+			if(particles[i]->CheckCollision(particles[j]))
+			{
+			aux = particles[i]->GetSpeed();
+			particles[i]->SetSpeed(particles[j]->GetSpeed());
+			particles[j]->SetSpeed(aux);
+			}
+		}
+	}
+
 
 	if ((currentTime.count() - initialMilliseconds.count()) - this->lastUpdateTime > this->config.getEmissionPeriod())
 	{
@@ -35,7 +50,7 @@ void Emmiter::Update()
 		{
 			Solid* newParticle = config.getParticle()->Clone();
 
-			newParticle->SetCoordinates(Vector3D(0,0,-2));
+			newParticle->SetCoordinates(Vector3D(0, 0 , -2));
 			newParticle->SetColor(randColor());
 			newParticle->SetOrientation(randVecBinary());
 			newParticle->SetOrientationSpeed(randVecBinary());
@@ -68,8 +83,8 @@ Color randColor()
 std::vector<Vector3D> Emmiter::circleSpeeds()
 {
 	int numParticles = config.getParticleNum();
+	float angle = 2 * PI / config.getParticleNum();
 	std::vector<Vector3D> speeds;
-	float angle = 2 * PI / numParticles;
 	 
 	for (int i = 0; i < numParticles; i++)
 	{
@@ -79,4 +94,32 @@ std::vector<Vector3D> Emmiter::circleSpeeds()
 	}
 
 	return speeds;
+}
+
+void Emmiter::checkBoundary(Solid* object)
+{
+	Vector3D oSpeed = object->GetSpeed();
+
+	float SpeedX = oSpeed.GetX();
+	float SpeedY = oSpeed.GetY();
+	float SpeedZ = oSpeed.GetZ();
+
+	if (object->GetCoordinates().GetX() > boundary.GetX() || object->GetCoordinates().GetX() < -1 * boundary.GetX())
+	{
+		Vector3D oSpeed = object->GetSpeed();
+		Vector3D nSpeed = Vector3D(SpeedX * -1, SpeedY, SpeedZ);
+		object->SetSpeed(nSpeed);
+	}
+	if (object->GetCoordinates().GetY() > boundary.GetY() || object->GetCoordinates().GetY() < -1 * boundary.GetY())
+	{
+		Vector3D oSpeed = object->GetSpeed();
+		Vector3D nSpeed = Vector3D(SpeedX, SpeedY * -1, SpeedZ);
+		object->SetSpeed(nSpeed);
+	}
+	if (object->GetCoordinates().GetZ() > boundary.GetZ() || object->GetCoordinates().GetZ() < -1 * boundary.GetZ())
+	{
+		Vector3D oSpeed = object->GetSpeed();
+		Vector3D nSpeed = Vector3D(SpeedX, SpeedY, SpeedZ * -1);
+		object->SetSpeed(nSpeed);
+	}
 }
