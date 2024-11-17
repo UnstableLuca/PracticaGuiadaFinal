@@ -24,11 +24,15 @@ void Game::Init()
 {
 	srand(static_cast<unsigned int>(std::time(nullptr)));
 	
-	Sphere SpherePrototye = Sphere();
+	Sphere SpherePrototype = Sphere();
+
+	Teapot TeapotPrototype = Teapot(0.4);
 
 	Cube CubePrototype = Cube(Vector3D(0,0,-2),Color(1,0,0),Vector3D(0,0,0),2);
 
-	Sphere* sParticle = SpherePrototye.Clone();
+	Teapot* tParticle = TeapotPrototype.Clone();
+
+	Sphere* sParticle = SpherePrototype.Clone();
 
 	Cube* cParticle = CubePrototype.Clone();
 	

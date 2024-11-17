@@ -25,25 +25,6 @@ void Emmiter::Update()
 	Vector3D aux;
 	milliseconds currentTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
 
-	for (auto& particle : particles)
-	{
-		particle->Update();
-		checkBoundary(particle);
-	}
-
-	int n = particles.size();
-	for (int i = 0; i < n; ++i) {
-		for (int j = i + 1; j < n; ++j) {
-			if(particles[i]->CheckCollision(particles[j]))
-			{
-			aux = particles[i]->GetSpeed();
-			particles[i]->SetSpeed(particles[j]->GetSpeed());
-			particles[j]->SetSpeed(aux);
-			}
-		}
-	}
-
-
 	if ((currentTime.count() - initialMilliseconds.count()) - this->lastUpdateTime > this->config.getEmissionPeriod())
 	{
 		if(particles.size() < config.getParticleNum())
@@ -59,10 +40,28 @@ void Emmiter::Update()
 			AddParticle(newParticle);
 			current++;
 
-			lastUpdateTime = currentTime.count() - initialMilliseconds.count();
 		}
+		lastUpdateTime = currentTime.count() - initialMilliseconds.count();
 	}
 
+	for (auto& particle : particles)
+	{
+		particle->Update();
+		checkBoundary(particle);
+	}
+
+	int n = particles.size();
+	for (int i = 0; i < n; ++i) {
+		for (int j = i + 1; j < n; ++j) {
+			if (particles[i]->CheckCollision(particles[j]))
+			{
+				aux = particles[i]->GetSpeed();
+				particles[i]->SetSpeed(particles[j]->GetSpeed());
+				particles[j]->SetSpeed(aux);
+			}
+		}
+	}
+	
 }
 
 Emmiter* Emmiter::Clone()
@@ -123,3 +122,4 @@ void Emmiter::checkBoundary(Solid* object)
 		object->SetSpeed(nSpeed);
 	}
 }
+

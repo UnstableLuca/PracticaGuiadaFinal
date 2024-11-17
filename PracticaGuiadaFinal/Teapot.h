@@ -17,11 +17,16 @@ public:
 		Solid(coordinates, color, orientation),
 		size(size) {}
 
+	Teapot(float size) :
+
+	Solid(), size(size) {}
+	
+
 	inline float GetSize() const { return this->size; }
 
 	inline void SetSize(const float& sizeToSet) { this->size = sizeToSet; }
 
-	Solid* Clone();
+	Teapot* Clone();
 
 	void Render();
 };

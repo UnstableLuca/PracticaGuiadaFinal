@@ -12,7 +12,7 @@ void Teapot::Render()
 	glPopMatrix();
 }
 
-Solid* Teapot::Clone()
+Teapot* Teapot::Clone()
 {
 	return new Teapot(*this);
 }
