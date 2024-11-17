@@ -1,6 +1,5 @@
 #pragma once
 #include "Solid.h"
-#include "Sphere.h"
 
 class EmmiterConfiguration
 {
